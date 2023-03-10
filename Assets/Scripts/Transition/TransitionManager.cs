@@ -8,12 +8,24 @@ public class TransitionManager : MonoBehaviour
 
     private void GoToPreviousNode()
     {
+        if (tailNode == null)
+            return;
+
+        tailNode.TransitionOut();
+
         if (tailNode != null)
             tailNode = tailNode.Parent;
+
+        tailNode.TransitionIn();
     }
 
-    private void AddNode(TransitionNode node)
+    public void AddNode(TransitionNode node)
     {
+        if (tailNode != null)
+            tailNode.TransitionOut();
+
+        node.TransitionIn();
+
         node.Parent = tailNode;
 
         tailNode = node;

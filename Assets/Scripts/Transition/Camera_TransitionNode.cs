@@ -21,6 +21,6 @@ public class Camera_TransitionNode : TransitionNode
 
     public override void TransitionOut()
     {
-        virtualCamera.Priority= 0;
+        virtualCamera.Priority = 0;
     }
 }
