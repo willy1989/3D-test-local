@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,10 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private Button backButton;
 
     private TransitionNode tailNode;
+
+    public Action<TransitionNode> AddNodeEvent;
+
+    public Action GoBackToPreviousNodeEvent;
 
     private void Awake()
     {
@@ -32,6 +37,8 @@ public class TransitionManager : MonoBehaviour
         tailNode = tailNode.Parent;
 
         tailNode.TransitionIn();
+
+        GoBackToPreviousNodeEvent?.Invoke();
     }
 
     public void AddNode(TransitionNode node)
@@ -44,5 +51,7 @@ public class TransitionManager : MonoBehaviour
         node.Parent = tailNode;
 
         tailNode = node;
+
+        AddNodeEvent?.Invoke(node);
     }
 }
