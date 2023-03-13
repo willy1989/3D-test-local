@@ -1,20 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour
 {
+    [SerializeField] private TransitionNode startTransitionNode;
+
+    [SerializeField] private Button backButton;
+
     private TransitionNode tailNode;
+
+    private void Awake()
+    {
+        backButton.onClick.RemoveAllListeners();
+        backButton.onClick.AddListener(GoToPreviousNode);
+    }
+
+    private void Start()
+    {
+        AddNode(startTransitionNode);
+    }
 
     private void GoToPreviousNode()
     {
-        if (tailNode == null)
+        if (tailNode == null || tailNode.Parent == null)
             return;
 
         tailNode.TransitionOut();
 
-        if (tailNode != null)
-            tailNode = tailNode.Parent;
+        tailNode = tailNode.Parent;
 
         tailNode.TransitionIn();
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class TransitionNode : MonoBehaviour
 {
-    public TransitionNode Parent;
+    [HideInInspector] public TransitionNode Parent;
 
     public abstract void TransitionIn();
 
