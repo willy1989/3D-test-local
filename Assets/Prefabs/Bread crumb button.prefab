@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1405465279690473603}
   - component: {fileID: 6937520151751988280}
   - component: {fileID: 5866038119790597281}
+  - component: {fileID: 1940352365864614146}
   m_Layer: 5
   m_Name: Bread crumb button
   m_TagString: Untagged
@@ -122,6 +123,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1940352365864614146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105674497215726401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91abcbe21ee42514f9b0350754281208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionNode: {fileID: 0}
 --- !u!1 &8733936282994056332
 GameObject:
   m_ObjectHideFlags: 0

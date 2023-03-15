@@ -6,30 +6,46 @@ using UnityEngine.UI;
 
 public class BreadCrumbUI : MonoBehaviour
 {
-    [SerializeField] private Button breadCrumbButtonPrefab;
-
     [SerializeField] private TransitionManager transitionManager;
 
-    private Button lastAddedButton;
+    [SerializeField] private BreadCrumButton breadCrumbButtonPrefab;
+
+    private Stack<BreadCrumButton> breadCrumButtons = new Stack<BreadCrumButton>();
 
     private void Awake()
     {
         transitionManager.AddNodeEvent += AddButton;
-        transitionManager.GoBackToPreviousNodeEvent += RemoveLastButton;
+
+        transitionManager.GoToSpecificNodeEvent += RemoveButton;
     }
 
     private void AddButton(TransitionNode transitionNode)
     {
-        Button button = Instantiate(breadCrumbButtonPrefab, this.transform);
+        BreadCrumButton button = Instantiate(breadCrumbButtonPrefab, this.transform);
 
-        lastAddedButton = button;
+        button.GetComponentInChildren<TextMeshProUGUI>().text= transitionNode.name;
 
-        button.GetComponentInChildren<TextMeshProUGUI>().text = transitionNode.name;
+        button.TransitionNode= transitionNode;
+
+        button.Button.onClick.AddListener(() => { transitionManager.GoToSpecificNode(transitionNode); });
+
+        breadCrumButtons.Push(button);
     }
 
-    private void RemoveLastButton()
+    private void RemoveButton(TransitionNode targetTransitionNode)
     {
-        if(lastAddedButton != null) 
-            Destroy(lastAddedButton.gameObject);
+        BreadCrumButton currentBreadCrumbButton  = breadCrumButtons.Peek();
+
+        while (currentBreadCrumbButton != null) 
+        {
+            if(currentBreadCrumbButton.TransitionNode == targetTransitionNode) 
+                break;
+
+            currentBreadCrumbButton = breadCrumButtons.Pop();
+
+            Destroy(currentBreadCrumbButton.gameObject);
+
+            currentBreadCrumbButton = breadCrumButtons.Peek();
+        }
     }
 }

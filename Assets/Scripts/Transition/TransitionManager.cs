@@ -10,16 +10,16 @@ public class TransitionManager : MonoBehaviour
 
     [SerializeField] private Button backButton;
 
-    private TransitionNode tailNode;
+    public TransitionNode TailNode;
 
     public Action<TransitionNode> AddNodeEvent;
 
-    public Action GoBackToPreviousNodeEvent;
+    public Action<TransitionNode> GoToSpecificNodeEvent;
 
     private void Awake()
     {
         backButton.onClick.RemoveAllListeners();
-        backButton.onClick.AddListener(GoToPreviousNode);
+        backButton.onClick.AddListener(() => GoToSpecificNode(TailNode.Parent));
     }
 
     private void Start()
@@ -27,30 +27,30 @@ public class TransitionManager : MonoBehaviour
         AddNode(startTransitionNode);
     }
 
-    private void GoToPreviousNode()
+    public void GoToSpecificNode(TransitionNode targetNode)
     {
-        if (tailNode == null || tailNode.Parent == null)
+        if (TailNode == null)
             return;
 
-        tailNode.TransitionOut();
+        TailNode.TransitionOut();
 
-        tailNode = tailNode.Parent;
+        targetNode.TransitionIn();
 
-        tailNode.TransitionIn();
+        TailNode = targetNode;
 
-        GoBackToPreviousNodeEvent?.Invoke();
+        GoToSpecificNodeEvent?.Invoke(targetNode);
     }
 
     public void AddNode(TransitionNode node)
     {
-        if (tailNode != null)
-            tailNode.TransitionOut();
+        if (TailNode != null)
+            TailNode.TransitionOut();
 
         node.TransitionIn();
 
-        node.Parent = tailNode;
+        node.Parent = TailNode;
 
-        tailNode = node;
+        TailNode = node;
 
         AddNodeEvent?.Invoke(node);
     }

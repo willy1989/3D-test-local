@@ -12,20 +12,18 @@ public class TransitionTargetClicker : MonoBehaviour
 
     private void ClickTransitionTarget()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        if (Input.GetMouseButtonDown(0) == false)
+            return;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                TransitionTarget transitionTarget = hit.collider.GetComponent<TransitionTarget>();
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-                if (transitionTarget != null)
-                {
-                    transitionTarget.AddNode();
-                }
-            }
-        }
+        if (Physics.Raycast(ray, out hit) == false)
+            return;
+
+        TransitionTarget transitionTarget = hit.collider.GetComponent<TransitionTarget>();
+
+        if (transitionTarget != null)
+            transitionTarget.AddNode();
     }
 }
